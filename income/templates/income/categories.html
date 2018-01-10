@@ -19,7 +19,7 @@
 	<div class="row">
 		{% for category in categories %}
 		<div class="col-md-3">
-			<a href="">
+			<a href="{% url 'income:add_transaction' %}">
 			<div class="card category text-center">
 				<div class="card-body">
 					<h3>{{ category.category_name }}</h3>
