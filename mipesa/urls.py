@@ -19,4 +19,6 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'', include('dashboard.urls', namespace='dashboard')),
+    url(r'^expense/', include('expense.urls', namespace='expense')),
+    url(r'^income/', include('income.urls', namespace='income')),
 ]

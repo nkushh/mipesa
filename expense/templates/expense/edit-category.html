@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Category{% endblock %}
+
+{% block page_title %}Edit Category Details{% endblock %}
+
+{% block content %}
+<section class="page-body">
+	<div class="row justify-content-center">
+		<div class="col-md-6">
+			<form class="form" method="POST" action="{% url 'expense:update_category' category.pk %}">{% csrf_token %}
+				<div class="form-group">
+					<label>Category name</label>
+					<input type="text" name="category_name" class="form-control" value="{{ category.category_name }}">
+				</div>
+				<button class="btn btn-default" type="reset">Cancel</button>
+				<button class="btn btn-primary" type="submit">Update</button>
+			</form>
+		</div>
+	</div>
+</section>
+{% endblock %}

@@ -97,6 +97,27 @@ h1 {
 	margin-bottom: 3%;
 }
 
+/* Categories pages */
+.page-body{
+  padding: 10px;
+  margin-top: 3%;
+}
+
+.page-nav{
+  padding: 10px 5px;
+  margin-bottom: 2%;
+  width: 100%;
+}
+
+.category{
+  margin-bottom: 5%;
+  text-decoration: none;
+}
+
+.category .card-footer a{
+  margin-right: 20px;
+}
+
 /* Footer */
 footer{
 	text-align: center;
