@@ -19,6 +19,15 @@
 <section class="page-body">
 	<div class="row">
 		<div class="transaction-list">
+			
+			{% if messages %}
+			{% for message in messages %}
+			<div {% ifequal message.tags "error" %} class="alert alert-danger" {% else %} class="alert alert-{{ message.tags }}" {% endifequal %}>
+			{{ message }}
+			</div>
+			{% endfor %}
+			{% endif %}
+
 			<table class="table">
 				<thead class="thead-dark">
 					<th>Transaction #</th>

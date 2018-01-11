@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 
 from .models import ExpenseCategory, ExpenseTransaction
@@ -13,7 +14,12 @@ def categories(request):
 def new_category(request):
 	if request.method=="POST":
 		category = request.POST['category_name']
-		ExpenseCategory(category_name=category).save()
+		if ExpenseCategory.objects.filter(category_name=category).exists():
+			messages.error(request, "Error! Category name already exists. Try another!")
+			return redirect('expense:expense_categories')
+		else:
+			ExpenseCategory(category_name=category).save()
+			messages.success(request, "Succcess! Category details have been added successfully.")
 
 		return redirect('expense:expense_categories')
 	else:
@@ -32,6 +38,7 @@ def update_category(request, category_pk):
 		updated_category = request.POST['category_name']
 		category.category_name = updated_category
 		category.save()
+		messages.success(request, "Success! Category details updated successfully.")
 		return redirect('expense:expense_categories')
 	else:
 		return redirect('expense:edit_category', category_pk=category_pk)
@@ -40,6 +47,7 @@ def update_category(request, category_pk):
 def delete_category(request, category_pk):
 	category = get_object_or_404(ExpenseCategory, pk=category_pk)
 	category.delete()
+	messages.success(request, "Success! Category details deleted.")
 	return redirect('expense:expense_categories')
 
 
@@ -53,6 +61,7 @@ def new_transaction(request):
 		transaction_date = request.POST['transaction_date'] 
 		transaction = ExpenseTransaction(category=category, expense_name=name, description=description, amount=amount, transaction_date=transaction_date).save()
 		
+		messages.success(request, "Success! Transaction details added successfully.")
 		return redirect('expense:expense_transactions')
 	else:
 		return redirect('expense:expense_transactions')
@@ -85,6 +94,8 @@ def update_transaction(request, transaction_pk):
 		transaction.amount = request.POST['amount']
 		transaction.transaction_date = request.POST['transaction_date']
 		transaction.save()
+
+		messages.success(request, "Success! Transaction details updated successfully.")
 		return redirect('expense:expense_transactions')
 	else:
 		return redirect('expense:edit_transaction', transaction_pk=transaction_pk)
@@ -93,6 +104,7 @@ def update_transaction(request, transaction_pk):
 def delete_transaction(request, transaction_pk):
 	transaction = get_object_or_404(ExpenseTransaction, pk=transaction_pk)
 	transaction.delete()
+	messages.success(request, "Success! Transaction details deleted successfully.")
 	return redirect('expense:expense_transactions')
 
 

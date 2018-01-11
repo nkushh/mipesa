@@ -1,3 +1,4 @@
+from django.contrib import messages
 import datetime, calendar
 from django.shortcuts import render, redirect, get_object_or_404
 
@@ -14,7 +15,12 @@ def categories(request):
 def new_category(request):
 	if request.method=="POST":
 		category = request.POST['category_name']
-		Category(category_name=category).save()
+		if Category.objects.filter(category_name=category).exists():
+			messages.error(request, "Error! That category name already exists. Try another!")
+			return redirect('income:income_categories')
+		else:
+			Category(category_name=category).save()
+			messages.success(request, "Success! Category details added successfully.")
 
 		return redirect('income:income_categories')
 	else:
@@ -33,6 +39,7 @@ def update_category(request, category_pk):
 		updated_category = request.POST['category_name']
 		category.category_name = updated_category
 		category.save()
+		messages.success(request, "Success! Category details updated successfully.")
 		return redirect('income:income_categories')
 	else:
 		return redirect('income:edit_category', category_pk=category_pk)
@@ -41,6 +48,7 @@ def update_category(request, category_pk):
 def delete_category(request, category_pk):
 	category = get_object_or_404(Category, pk=category_pk)
 	category.delete()
+	messages.success(request, "Success! Category deleted successfully.")
 	return redirect('income:income_categories')
 
 
@@ -53,7 +61,7 @@ def new_transaction(request):
 		amount = request.POST['amount']
 		transaction_date = request.POST['transaction_date'] 
 		transaction = IncomeTransaction(category=category, income_name=name, description=description, amount=amount, transaction_date=transaction_date).save()
-		
+		messages.success(request, "Success! Transaction details added successfully.")
 		return redirect('income:income_transactions')
 	else:
 		return redirect('income:income_transactions')
@@ -85,6 +93,7 @@ def update_transaction(request, transaction_pk):
 		transaction.amount = request.POST['amount']
 		transaction.transaction_date = request.POST['transaction_date']
 		transaction.save()
+		messages.success(request, "Success! Transaction details updated successfully.")
 		return redirect('income:income_transactions')
 	else:
 		return redirect('income:edit_transaction', transaction_pk=transaction_pk)
@@ -93,6 +102,7 @@ def update_transaction(request, transaction_pk):
 def delete_transaction(request, transaction_pk):
 	transaction = get_object_or_404(IncomeTransaction, pk=transaction_pk)
 	transaction.delete()
+	messages.success(request, "Success! Transaction deleted successfully.")
 	return redirect('income:income_transactions')
 
 

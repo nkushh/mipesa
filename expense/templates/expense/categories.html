@@ -17,6 +17,15 @@
 
 <section class="page-body">	
 	<div class="row">
+
+		{% if messages %}
+		{% for message in messages %}
+		<div {% ifequal message.tags "error" %} class="alert alert-danger" {% else %} class="alert alert-{{ message.tags }}" {% endifequal %}>
+		{{ message }}
+		</div>
+		{% endfor %}
+		{% endif %}
+
 		{% for category in categories %}
 		<div class="col-md-3">
 			<a href="">
