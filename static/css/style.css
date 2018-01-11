@@ -109,6 +109,10 @@ h1 {
   width: 100%;
 }
 
+.page-nav .btn{
+  margin-right: 5px;
+}
+
 .category{
   margin-bottom: 5%;
   text-decoration: none;
@@ -116,6 +120,46 @@ h1 {
 
 .category .card-footer a{
   margin-right: 20px;
+}
+
+.transaction-list{
+  width: 100%;
+}
+
+.accounts-list{
+  width: 100%;
+}
+
+.fa-trash-o{
+  color: red;
+}
+
+.fa-edit{
+  color: green;
+}
+
+/* Account details page */
+.account-transactions{
+  margin-left: 15px;
+}
+
+.account-details{
+  padding: 5px;
+  border-right: 1px solid #eee;
+}
+
+.account-details span{
+  display: block;
+  color: #17a2b8;
+}
+
+.account-details .btn{
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+.account-details .btn .fa{
+  color: #fff;
 }
 
 /* Footer */

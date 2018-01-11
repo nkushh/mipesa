@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Transaction{% endblock %}
+
+{% block page_title %}Edit Transaction Details{% endblock %}
+
+{% block content %}
+<section class="page-body">
+	<div class="row justify-content-center">
+		<div class="col-md-6">
+			<div class="card">
+				<div class="card-body">
+					<form class="form-horizontal" role="form" method="POST" action="{% url 'income:update_transaction' transaction.pk %}">{% csrf_token %}
+						<div class="form-group">
+							<label>Category</label>
+							<select class="form-control" name="category">
+								<option selected disabled>--Select category--</option>
+								{% for category in categories %}
+								<option value="{{ category.pk }}" {% if category.pk == transaction.category.pk %} selected {% endif %}>{{ category.category_name }}</option>
+								{% endfor %}
+							</select>
+						</div>
+						<div class="form-group">
+							<label>Transaction name</label>
+							<input type="text" name="name" class="form-control" value="{{ transaction.income_name }}">
+						</div>
+						<div class="form-group">
+							<label>Transaction description</label>
+							<textarea class="form-control" name="description">{{ transaction.description }}</textarea>
+						</div>
+						<div class="form-group">
+							<label>Amount</label>
+							<input type="text" name="amount" class="form-control" value="{{ transaction.amount }}">
+						</div>
+						<div class="form-group input-group date" data-provide="datepicker">
+						    <input type="datepicker" class="form-control" data-date-format="yyyy-mm-dd" name="transaction_date" value="{{ transaction.transaction_date|date:"Y-m-d" }}">
+						    <div class="input-group-addon">
+						        <i class="fa fa-calendar"></i>
+						    </div>
+						</div>
+				</div>
+				<div class="card-footer">
+					<button class="btn btn-default" type="reset">Cancel</button>
+					<button class="btn btn-primary" type="submit">Update</button>
+				</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}

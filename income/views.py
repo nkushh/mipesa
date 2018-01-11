@@ -65,3 +65,41 @@ def all_transactions(request):
 		'transactions' : IncomeTransaction.objects.all(),
 	}
 	return render(request, template, context)
+
+def edit_transaction(request, transaction_pk):
+	template = "income/edit-transaction.html"
+	context = {
+		'categories' : Category.objects.all(),
+		'transaction' : get_object_or_404(IncomeTransaction, pk=transaction_pk),
+	}
+
+	return render(request, template, context)
+
+def update_transaction(request, transaction_pk):
+	transaction = get_object_or_404(IncomeTransaction, pk=transaction_pk)
+
+	if request.method=="POST":
+		transaction.category = get_object_or_404(Category, pk=request.POST['category'])
+		transaction.income_name = request.POST['name']
+		transaction.description = request.POST['description']
+		transaction.amount = request.POST['amount']
+		transaction.transaction_date = request.POST['transaction_date']
+		transaction.save()
+		return redirect('income:income_transactions')
+	else:
+		return redirect('income:edit_transaction', transaction_pk=transaction_pk)
+
+
+def delete_transaction(request, transaction_pk):
+	transaction = get_object_or_404(IncomeTransaction, pk=transaction_pk)
+	transaction.delete()
+	return redirect('income:income_transactions')
+
+
+
+
+
+
+
+
+

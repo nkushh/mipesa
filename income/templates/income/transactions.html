@@ -26,6 +26,7 @@
 					<th>Category</th>
 					<th>Amount</th>
 					<th>Date</th>
+					<th class="text-center">Action</th>
 				</thead>
 				<tbody>
 					{% for transaction in transactions %}
@@ -35,6 +36,10 @@
 						<td>{{ transaction.category }}</td>
 						<td>{{ transaction.amount|intcomma }}</td>
 						<td>{{ transaction.transaction_date }}</td>
+						<td class="text-center">
+							<a href="{% url 'income:edit_transaction' transaction.pk %}" style="color: green;"><i class="fa fa-edit"></i> Edit</a>
+							<a href="{% url 'income:delete_transaction' transaction.pk %}" style="color: red;" onclick="return confirm('This action is irreversible. Are you sure?');"><i class="fa fa-trash-o"></i> Delete</a>
+						</td>
 					</tr>
 					{% empty %}
 					<tr>

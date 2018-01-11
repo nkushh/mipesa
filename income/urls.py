@@ -13,4 +13,7 @@ urlpatterns = [
 
 	url(r'^income-transactions/$', views.all_transactions, name="income_transactions"),
 	url(r'^add-transaction/$', views.new_transaction, name="add_transaction"),
+	url(r'^edit-transaction/(?P<transaction_pk>\d+)/$', views.edit_transaction, name="edit_transaction"),
+	url(r'^update-transaction/(?P<transaction_pk>\d+)/$', views.update_transaction, name="update_transaction"),
+	url(r'^delete-transaction/(?P<transaction_pk>\d+)/$', views.delete_transaction, name="delete_transaction"),
 ]

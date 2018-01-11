@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block title %}Account Transactions{% endblock %}
+
+{% block page_title %}{{ account }} Transactions List{% endblock %}
+
+{% block content %}
+<section class="page-head">
+	<div class="row">
+		<div class="page-nav">
+			<button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#newTransaction">
+			  <i class="fa fa-plus"></i> New transaction
+			</button>
+			<a class="btn btn-success pull-right" href="{% url 'bank:bank_accounts' %}">
+			  <i class="fa fa-bank"></i> Bank Accounts
+			</a>
+		</div>
+	</div>
+</section>
+
+<section class="page-body">
+	<div class="row">
+		<div class="col-md-3">
+			<div class="account-details">
+				<p><i class="fa fa-id-card-o"></i> Account name: <span>{{ account }}</span></p>
+				<p><i class="fa fa-list"></i> Account no: <span>{{ account.account_no }}</span></p>
+				<p><i class="fa fa-calendar"></i> Opened on: <span>Ksh.{{ account.date_created }}</span></p>
+				<p><i class="fa fa-money"></i> Balance: <span>Ksh.{{ account.balance|intcomma }}</span></p>
+				<a class="btn btn-primary" href="{% url 'bank:edit_account' account.pk %}"><i class="fa fa-edit"></i> Edit</a>
+			    <a class="btn btn-danger" href="{% url 'bank:delete_account' account.pk %}" onclick="return confirm('This action is irreversible. Are you sure?');"><i class="fa fa-trash-o"></i> Delete</a>
+			</div>
+		</div>
+		<div class="col-md-9">
+			<div class="account-transactions">
+				{% if messages %}
+				{% for message in messages %}
+				<div {% ifequal message.tags "error" %} class="alert alert-danger" {% else %} class="alert alert-{{ message.tags }}" {% endifequal %}>
+				{{ message }}
+				</div>
+				{% endfor %}
+				{% endif %}
+
+				<table class="table">
+					<thead class="thead-dark">
+						<th>Transaction #</th>
+						<th>Transaction</th>
+						<th>Amount</th>
+						<th>Date</th>
+						<th class="text-center">Action</th>
+					</thead>
+					<tbody>
+						{% for transaction in account.banktransaction_set.all %}
+						<tr>
+							<td>{{ transaction.pk }}</td>
+							<td>{{ transaction.transaction_type }}</td>
+							<td>
+								{% ifequal transaction.transaction_type "Deposit" %}
+								<span style="color: green;">
+									<i class="fa fa-upload"></i> {{ transaction.amount|intcomma }}
+								</span>
+								{% else %}
+								<span style="color: red;">
+									<i class="fa fa-download"></i> {{ transaction.amount|intcomma }}
+								</span>
+								{% endifequal %}
+							</td>
+							<td>{{ transaction.transaction_date }}</td>
+							<td class="text-center">
+								<div class="dropdown">
+								  <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								    <i class="fa fa-cog"></i>
+								  </button>
+								  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+								    <a class="dropdown-item" href="{% url 'bank:edit_transaction' transaction.pk %}"><i class="fa fa-edit"></i> Edit</a>
+								    <a class="dropdown-item" href="{% url 'bank:delete_transaction' transaction.pk %}" onclick="return confirm('This action is irreversible. Are you sure?');"><i class="fa fa-trash-o"></i> Delete</a>
+								  </div>
+								</div>
+							</td>
+						</tr>
+						{% empty %}
+						<tr>
+							<td colspan="4" class="text-center"><h2>No Bank transactions to display!</h2></td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- New Transaction Modal -->
+<div class="modal fade" id="newTransaction" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Transaction details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="form" method="POST" action="{% url 'bank:add_transaction' %}">
+        	{% csrf_token %}
+        	<div class="form-group">
+				<label>Account</label>
+				<select class="form-control" name="account">
+					<option selected disabled>--Select account--</option>
+					{% for account in accounts %}
+					<option value="{{ account.pk }}">{{ account }}</option>
+					{% endfor %}
+				</select>
+			</div>
+			<div class="form-group">
+				<label>Transaction type</label>
+				<select class="form-control" name="transaction_type">
+					<option selected disabled>--Transaction type--</option>
+					<option value="Deposit">Deposit</option>
+					<option value="Wthdraw">Withdraw</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label>Amount</label>
+				<input type="text" name="amount" class="form-control" placeholder="Transaction amount">
+			</div>
+			<div class="form-group">
+				<label>Description</label>
+				<textarea class="form-control" name="description"></textarea>
+			</div>
+			<div class="form-group input-group date" data-provide="datepicker">
+			    <input type="datepicker" class="form-control" data-date-format="yyyy-mm-dd" name="transaction_date" placeholder="Pick date">
+			    <div class="input-group-addon">
+			        <i class="fa fa-calendar"></i>
+			    </div>
+			</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

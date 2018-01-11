@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Account{% endblock %}
+
+{% block page_title %}Edit Account Details{% endblock %}
+
+{% block content %}
+<section class="page-body">
+	<div class="row justify-content-center">
+		<div class="col-md-6">
+			<div class="card">
+				<div class="card-body">
+					<form class="form-horizontal" role="form" method="POST" action="{% url 'bank:update_account' account.pk %}">{% csrf_token %}
+						<div class="form-group">
+							<label>Bank name</label>
+							<input type="text" name="bank_name" class="form-control" value="{{ account.bank_name }}">
+						</div>
+						<div class="form-group">
+							<label>Account name</label>
+							<input type="text" name="account_name" class="form-control" value="{{ account.account_name }}">
+						</div>
+						<div class="form-group">
+							<label>Account type</label>
+							<input type="text" name="account_type" class="form-control" value="{{ account.account_type }}">
+						</div>
+						<div class="form-group">
+							<label>Account number</label>
+							<input type="text" name="account_no" class="form-control" value="{{ account.account_no }}">
+						</div>
+						<div class="form-group">
+							<label>Amount</label>
+							<input type="text" name="balance" class="form-control" value="{{ account.balance }}">
+						</div>
+						<div class="form-group input-group date" data-provide="datepicker">
+						    <input type="datepicker" class="form-control" data-date-format="yyyy-mm-dd" name="date_created" value="{{ account.date_created|date:'Y-m-d' }}">
+						    <div class="input-group-addon">
+						        <i class="fa fa-calendar"></i>
+						    </div>
+						</div>
+				</div>
+				<div class="card-footer">
+					<button class="btn btn-default" type="reset">Cancel</button>
+					<button class="btn btn-primary" type="submit">Update</button>
+				</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}

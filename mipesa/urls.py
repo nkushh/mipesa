@@ -21,4 +21,5 @@ urlpatterns = [
     url(r'', include('dashboard.urls', namespace='dashboard')),
     url(r'^expense/', include('expense.urls', namespace='expense')),
     url(r'^income/', include('income.urls', namespace='income')),
+    url(r'^bank/', include('bank.urls', namespace='bank')),
 ]
