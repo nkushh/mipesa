@@ -22,4 +22,5 @@ urlpatterns = [
     url(r'^expense/', include('expense.urls', namespace='expense')),
     url(r'^income/', include('income.urls', namespace='income')),
     url(r'^bank/', include('bank.urls', namespace='bank')),
+    url(r'^sacco/', include('sacco.urls', namespace='sacco')),
 ]
