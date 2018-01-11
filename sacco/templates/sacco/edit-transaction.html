@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Transaction{% endblock %}
+
+{% block page_title %}Edit Transaction Details{% endblock %}
+
+{% block content %}
+<section class="page-body">
+	<div class="row justify-content-center">
+		<div class="col-md-6">
+			<div class="card">
+				<div class="card-body">
+					<form class="form-horizontal" role="form" method="POST" action="{% url 'sacco:update_transaction' transaction.pk %}">{% csrf_token %}
+						<div class="form-group">
+							<label>Account</label>
+							<select class="form-control" name="account">
+								<option selected disabled>--Select account--</option>
+								{% for account in accounts %}
+								<option value="{{ account.pk }}" {% ifequal account.account_no transaction.account.account_no %} selected {% endifequal %}>{{ account }}</option>
+								{% endfor %}
+							</select>
+						</div>
+						<div class="form-group">
+							<label>Transaction type</label>
+							<select class="form-control" name="transaction_type">
+								<option value="Deposit" {% ifequal transaction.transaction_type "Deposit" %} selected {% endifequal %}>Deposit</option>
+								<option value="Withdraw" {% ifequal transaction.transaction_type "Withdraw" %} selected {% endifequal %}>Withdraw</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label>Amount</label>
+							<input type="text" name="amount" class="form-control" value="{{ transaction.amount }}">
+						</div>
+						<div class="form-group">
+							<label>Description</label>
+							<textarea class="form-control" name="description">{{ transaction.amount }}</textarea>
+						</div>
+						<div class="form-group input-group date" data-provide="datepicker">
+						    <input type="datepicker" class="form-control" data-date-format="yyyy-mm-dd" name="transaction_date" value="{{ transaction.transaction_date|date:'Y-m-d' }}">
+						    <div class="input-group-addon">
+						        <i class="fa fa-calendar"></i>
+						    </div>
+						</div>
+				</div>
+				<div class="card-footer">
+					<button class="btn btn-default" type="reset">Cancel</button>
+					<button class="btn btn-primary" type="submit">Update</button>
+				</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}
