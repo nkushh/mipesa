@@ -107,6 +107,13 @@ def delete_transaction(request, transaction_pk):
 	messages.success(request, "Success! Transaction details deleted successfully.")
 	return redirect('expense:expense_transactions')
 
+def fetch_category(request, category_pk):
+	template = 'expense/category.html'
+	context = {
+		'category' : get_object_or_404(ExpenseCategory, pk=category_pk),
+	}
+	return render(request, template, context)
+
 
 
 

@@ -41,8 +41,10 @@ INSTALLED_APPS = [
     # Custom
     'bank',
     'dashboard',
+    'debts',
     'expense',
     'income',
+    'mpesa',
     'sacco',
 ]
 

@@ -52,6 +52,14 @@ def delete_category(request, category_pk):
 	return redirect('income:income_categories')
 
 
+def fetch_category(request, category_pk):
+	template = 'income/category.html'
+	context = {
+		'category' : get_object_or_404(Category, pk=category_pk),
+	}
+	return render(request, template, context)
+
+
 # Income transactions
 def new_transaction(request):
 	if request.method=="POST":

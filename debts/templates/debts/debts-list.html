@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block title %}Debts List{% endblock %}
+
+{% block page_title %}Active Debts{% endblock %}
+
+{% block content %}
+<section class="page-head">
+	<div class="row">
+		<div class="page-nav">
+			<button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#newDebt">
+			  <i class="fa fa-plus"></i> New debt
+			</button>
+		</div>	
+	</div>
+</section>
+
+<section class="page-body">
+	<div class="row">
+		<div class="accounts-list">
+			
+			{% if messages %}
+			{% for message in messages %}
+			<div {% ifequal message.tags "error" %} class="alert alert-danger" {% else %} class="alert alert-{{ message.tags }}" {% endifequal %}>
+			{{ message }}
+			</div>
+			{% endfor %}
+			{% endif %}
+
+			<table class="table">
+				<thead class="thead-dark">
+					<th>Debtor</th>
+					<th>Amount</th>
+					<th>Balance</th>
+					<th>Date taken</th>
+					<th>Date due</th>
+					<th class="text-center">Action</th>
+				</thead>
+				<tbody>
+					{% for debt in debts %}
+					<tr>
+						<td><a href="">{{ debt.debtor }}</a></td>
+						<td>{{ debt.amount|intcomma }}</td>
+						<td>{{ debt.balance|intcomma }}</td>
+						<td>{{ debt.taken_on }}</td>
+						<td>{{ debt.date_due }}</td>
+						<td class="text-center">
+							<div class="dropdown">
+							  <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							    <i class="fa fa-cog"></i>
+							  </button>
+							  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+							  	<a class="dropdown-item" href="{% url 'debts:make_payment' debt.pk %}"><i class="fa fa-handshake-o"></i> Pay</a>
+							    <a class="dropdown-item" href="{% url 'debts:update_debt' debt.pk %}"><i class="fa fa-edit"></i> Edit</a>
+							    <a class="dropdown-item" href="{% url 'debts:delete_debt' debt.pk %}" onclick="return confirm('This action is irreversible. Are you sure?');"><i class="fa fa-trash-o"></i> Delete</a>
+							  </div>
+							</div>
+						</td>
+					</tr>
+					{% empty %}
+					<tr>
+						<td colspan="4" class="text-center"><h2>No debts to display!</h2></td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</section>
+
+
+<!-- New Account Modal -->
+<div class="modal fade" id="newDebt" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Debt details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="form" method="POST" action="{% url 'debts:add_debt' %}">
+        	{% csrf_token %}
+			<div class="form-group">
+				<label>Amount</label>
+				<input type="text" name="amount" class="form-control" placeholder="Amount borrowed">
+			</div>
+			<div class="form-group">
+				<label>Debtor name</label>
+				<input type="text" name="debtor" class="form-control" placeholder="Name of debtor">
+			</div>
+			<div class="form-group">
+				<label>Description</label>
+				<textarea class="form-control" name="description"></textarea>
+			</div>
+			<div class="input-group date" data-provide="datepicker">
+			    <input type="text" class="form-control" data-date-format="yyyy-mm-dd" name="taken_on" placeholder="Taken on">
+			    <div class="input-group-append">
+			        <i class="fa fa-calendar"></i>
+			    </div>
+			</div>
+			<div class="input-group date" data-provide="datepicker">
+			    <input type="text" class="form-control" data-date-format="yyyy-mm-dd" name="date_due" placeholder="Due date">
+			    <div class="input-group-append">
+			        <i class="fa fa-calendar"></i>
+			    </div>
+			</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

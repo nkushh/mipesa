@@ -51,27 +51,35 @@
       <div class="row">
         <!-- Sidebar -->
         <nav class="col-sm-3 col-md-2 d-none d-sm-block bg-dark sidebar">
+
+          {% url 'dashboard:home' as homess %}
+          {% url 'income:income_transactions' as incomess %}
+          {% url 'expense:expense_transactions' as expensess %}
+          {% url 'bank:bank_transactions' as bankss %}
+          {% url 'sacco:sacco_transactions' as saccoss %}
+          {% url 'debts:debts_list' as debtss %}
+
           <ul class="nav nav-pills flex-column">
             <li class="nav-item">
-              <a class="nav-link active" href="{% url 'dashboard:home' %}"><i class="fa fa-dashboard"></i> Dashboard <span class="sr-only">(current)</span></a>
+              <a class="nav-link {% if request.path == homess %} active {% endif %}" href="{% url 'dashboard:home' %}"><i class="fa fa-dashboard"></i> Dashboard <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'income:income_transactions' %}"><i class="fa fa-money"></i> Income</a>
+              <a class="nav-link {% if request.path == incomess %} active {% endif %}" href="{% url 'income:income_transactions' %}"><i class="fa fa-money"></i> Income</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'expense:expense_transactions' %}"><i class="fa fa-fire"></i> Expenses</a>
+              <a class="nav-link {% if request.path == expensess %} active {% endif %}" href="{% url 'expense:expense_transactions' %}"><i class="fa fa-fire"></i> Expenses</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'bank:bank_transactions' %}"><i class="fa fa-bank"></i> Bank</a>
+              <a class="nav-link {% if request.path == bankss %} active {% endif %}" href="{% url 'bank:bank_transactions' %}"><i class="fa fa-bank"></i> Bank</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'sacco:sacco_transactions' %}"><i class="fa fa-dot-circle-o"></i> Sacco</a>
+              <a class="nav-link {% if request.path == saccoss %} active {% endif %}" href="{% url 'sacco:sacco_transactions' %}"><i class="fa fa-dot-circle-o"></i> Sacco</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#"><i class="fa fa-mobile"></i> M-pesa</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#"><i class="fa fa-credit-card"></i> Debts</a>
+              <a class="nav-link {% if request.path == debtss %} active {% endif %}" href="{% url 'debts:debts_list' %}"><i class="fa fa-credit-card"></i> Debts</a>
             </li>
           </ul>
         </nav>

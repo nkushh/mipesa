@@ -9,6 +9,9 @@
 <section class="page-head">
 	<div class="row">
 		<div class="page-nav">
+			<a type="button" class="btn btn-success pull-right" href="{% url 'income:income_categories' %}">
+			  <i class="fa fa-tag"></i> Income categories
+			</a>
 			<button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#newTransaction">
 			  <i class="fa fa-plus"></i> New transaction
 			</button>
@@ -19,7 +22,7 @@
 <section class="page-body">
 	<div class="row">
 		<div class="transaction-list">
-			
+
 			{% if messages %}
 			{% for message in messages %}
 			<div {% ifequal message.tags "error" %} class="alert alert-danger" {% else %} class="alert alert-{{ message.tags }}" {% endifequal %}>
@@ -95,9 +98,9 @@
 				<label>Amount</label>
 				<input type="text" name="amount" class="form-control" placeholder="Amount recieved">
 			</div>
-			<div class="form-group input-group date" data-provide="datepicker">
-			    <input type="datepicker" class="form-control" data-date-format="yyyy-mm-dd" name="transaction_date" placeholder="Pick date">
-			    <div class="input-group-addon">
+			<div class="input-group date" data-provide="datepicker">
+			    <input type="text" class="form-control" data-date-format="yyyy-mm-dd" name="transaction_date" placeholder="Pick date">
+			    <div class="input-group-append">
 			        <i class="fa fa-calendar"></i>
 			    </div>
 			</div>

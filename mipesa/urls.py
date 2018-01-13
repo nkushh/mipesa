@@ -19,8 +19,9 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'', include('dashboard.urls', namespace='dashboard')),
+    url(r'^bank/', include('bank.urls', namespace='bank')),
+    url(r'^debts/', include('debts.urls', namespace='debts')),
     url(r'^expense/', include('expense.urls', namespace='expense')),
     url(r'^income/', include('income.urls', namespace='income')),
-    url(r'^bank/', include('bank.urls', namespace='bank')),
     url(r'^sacco/', include('sacco.urls', namespace='sacco')),
 ]

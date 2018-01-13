@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Debt{% endblock %}
+
+{% block page_title %}Edit Debt Details{% endblock %}
+
+{% block content %}
+<section class="page-body">
+	<div class="row justify-content-center">
+		<div class="col-md-6">
+			<div class="card">
+				<div class="card-body">
+					<form class="form-horizontal" role="form" method="POST" action="{% url 'debts:update_debt' debt.pk %}">{% csrf_token %}
+						<div class="form-group">
+							<label>Amount</label>
+							<input type="text" name="amount" class="form-control" value="{{ debt.amount }}">
+						</div>
+						<div class="form-group">
+							<label>Balance</label>
+							<input type="text" name="balance" class="form-control" value="{{ debt.balance }}">
+						</div>
+						<div class="form-group">
+							<label>Debtor name</label>
+							<input type="text" name="debtor" class="form-control" value="{{ debt.debtor }}">
+						</div>
+						<div class="form-group">
+							<label>Description</label>
+							<textarea class="form-control" name="description">{{ debt.description }}</textarea>
+						</div>
+						<label>Taken on</label>
+						<div class="input-group date" data-provide="datepicker">
+						    <input type="text" class="form-control" data-date-format="yyyy-mm-dd" name="taken_on" value="{{ debt.taken_on|date:'Y-m-d' }}">
+						    <div class="input-group-append">
+						        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+						    </div>
+						</div>
+						<label>Date due</label>
+						<div class="input-group date" data-provide="datepicker">
+						    <input type="text" class="form-control" data-date-format="yyyy-mm-dd" name="date_due" value="{{ debt.date_due|date:'Y-m-d' }}">
+						    <div class="input-group-append">
+						        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+						    </div>
+						</div>
+				</div>
+				<div class="card-footer">
+					<button class="btn btn-default" type="reset">Cancel</button>
+					<button class="btn btn-primary" type="submit">Update</button>
+				</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}
