@@ -162,6 +162,31 @@ h1 {
   color: #fff;
 }
 
+.auth-form{
+  padding: 10px;
+  background: #fff;
+  height: 100vh;
+}
+
+.auth-side{
+  background: #3a9ee0;
+  padding: 10px;
+  height: 100vh;
+}
+
+.login-form{
+  width: 100%;
+  color: #333333;
+  height: 100vh;
+  margin: 0 auto;
+  overflow: hidden;
+  align-items: center;
+  justify-content: space-around;
+  display: flex;
+  float: none;
+}
+
+
 /* Footer */
 footer{
 	text-align: center;

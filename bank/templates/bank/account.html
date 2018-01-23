@@ -103,21 +103,17 @@
       <div class="modal-body">
         <form class="form" method="POST" action="{% url 'bank:add_transaction' %}">
         	{% csrf_token %}
+        	<input type="hidden" name="account" class="form-control" value="{{ account.pk }}">
         	<div class="form-group">
 				<label>Account</label>
-				<select class="form-control" name="account">
-					<option selected disabled>--Select account--</option>
-					{% for account in accounts %}
-					<option value="{{ account.pk }}">{{ account }}</option>
-					{% endfor %}
-				</select>
+				<input type="text" class="form-control" value="{{ account }}" disabled>
 			</div>
 			<div class="form-group">
 				<label>Transaction type</label>
 				<select class="form-control" name="transaction_type">
 					<option selected disabled>--Transaction type--</option>
 					<option value="Deposit">Deposit</option>
-					<option value="Wthdraw">Withdraw</option>
+					<option value="Withdraw">Withdraw</option>
 				</select>
 			</div>
 			<div class="form-group">

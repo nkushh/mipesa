@@ -68,18 +68,18 @@ def new_transaction(request):
 		account = get_object_or_404(BankAccount, pk=request.POST['account'])
 		transaction_type = request.POST['transaction_type']
 		description = request.POST['description']
-		amount = request.POST['amount']
+		amount = float(request.POST['amount'])
 		transaction_date = request.POST['transaction_date'] 
 
 		if transaction_type=="Deposit":
-			account.balance = account.balance + float(amount)
+			account.balance = account.balance + amount
 			account.save()
 		elif transaction_type=="Withdraw":
 			if account.balance < amount:
 				messages.error(request, "Error! Your withdrawal request exceeds your account balance")
 				return redirect('bank:bank_transactions')
 			else:
-			 	account.balance = account.balance - float(amount)
+			 	account.balance = account.balance - amount
 			 	account.save()
 
 		transaction = BankTransaction(account=account, transaction_type=transaction_type, description=description, amount=amount, transaction_date=transaction_date).save()

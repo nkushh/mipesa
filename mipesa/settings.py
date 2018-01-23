@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Custom
+    'auth_app',
     'bank',
     'dashboard',
     'debts',
@@ -131,3 +132,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'assets'),
     )
+
+# Login redirect
+LOGIN_REDIRECT_URL = '/'

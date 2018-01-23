@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -23,5 +24,8 @@ urlpatterns = [
     url(r'^debts/', include('debts.urls', namespace='debts')),
     url(r'^expense/', include('expense.urls', namespace='expense')),
     url(r'^income/', include('income.urls', namespace='income')),
+    url(r'^login/$', auth_views.login, {'template_name': 'auth_app/login.html'}, name="login"),
+    url(r'^logout/$', auth_views.logout, name="logout"),
+    url(r'^accounts/', include('auth_app.urls', namespace="auth_app")),
     url(r'^sacco/', include('sacco.urls', namespace='sacco')),
 ]
